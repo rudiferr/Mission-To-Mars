@@ -12,14 +12,15 @@ def scrape_all():
 
     hemisphere_image_urls = hemisphere_images(browser)
     news_title, news_paragraph = mars_news(browser)
+    featured_image_url = featured_image(browser)
 
     # Run all scraping functions and store results in a dictionary
     data = {
         "news_title": news_title,
         "news_paragraph": news_paragraph,
-        "featured_image": featured_image(browser),
+        "featured_image": featured_image_url,
         "facts": mars_facts(),
-        "hemispheres": hemisphere_images(browser),
+        "hemispheres": hemisphere_image_urls,
         "last_modified": dt.datetime.now()
     }
 
@@ -55,7 +56,7 @@ def mars_news(browser):
 
 def featured_image(browser):
     # Visit URL
-    url = 'https://marshemispheres.com/'
+    url = 'https://spaceimages-mars.com/'
     browser.visit(url)
 
     # Find and click the full image button
@@ -75,7 +76,7 @@ def featured_image(browser):
         return None
     
     # Use the base url to create an absolute url
-    img_url = f'https://marshemispheres.com/{img_url_rel}'
+    img_url = f'https://spaceimages-mars.com/{img_url_rel}'
     
     return img_url
 
@@ -84,7 +85,7 @@ def mars_facts():
     # Add try/exceept for error handling
     try:
         # Use 'read_html' to scrape the facts table into a dataframe
-        df = pd.read_html('https://space-facts.com/mars/')[0]
+        df = pd.read_html('https://galaxyfacts-mars.com')[0]
 
     except BaseException:
         return None
